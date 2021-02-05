@@ -15,10 +15,14 @@ module.exports = function (app) {
 
   //POST a new workout
   app.post("/api/workouts", (req, res) => {
-    console.log(req.body);
+    console.log("req.body of post new" + req.body);
+    const addNew = {
+      day: new Date(),
+      exercises: [req.body],
+    };
     workouts
-      .create(req.body)
-      .then((expl) => console.log(expl))
+      .create(addNew)
+      .then((expl) => console.log("post new expl: " + expl))
       .catch((err) => {
         res.json(err);
       });
@@ -26,7 +30,7 @@ module.exports = function (app) {
 
   //PUT exercise by id
   app.put("/api/workouts/:id", (req, res) => {
-    console.log(req.params.id);
+    console.log("id is: " + req.params.id);
     workouts
       .findOneAndUpdate(
         { _id: req.params.id },
@@ -45,4 +49,25 @@ module.exports = function (app) {
   });
 
   //range
+  app.get("/api/workouts/range", (req, res) => {
+    console.log("inside range GET");
+
+    workouts
+      .aggregate([
+        //sort most recent to least recent
+        {
+          $sort: { _id: -1 },
+        },
+        // limit to 7 responses
+        {
+          $limit: 7,
+        },
+      ])
+      .then((resp) => {
+        res.json(resp);
+      })
+      .catch((err) => {
+        res.json(err);
+      });
+  });
 };
