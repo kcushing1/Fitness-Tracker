@@ -24,7 +24,25 @@ module.exports = function (app) {
       });
   });
 
-  //PUT update by id
+  //PUT exercise by id
+  app.put("/api/workouts/:id", (req, res) => {
+    console.log(req.params.id);
+    workouts
+      .findOneAndUpdate(
+        { _id: req.params.id },
+        {
+          $push: {
+            exercises: [req.body],
+          },
+        }
+      )
+      .then((newWorkout) => {
+        res.json(newWorkout);
+      })
+      .catch((err) => {
+        res.json(err);
+      });
+  });
 
   //range
 };
