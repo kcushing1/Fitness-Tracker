@@ -6,6 +6,7 @@ const express = require("express");
 const logger = require("morgan");
 const dotenv = require("dotenv");
 dotenv.config();
+const Workout = require("./models/worksouts");
 
 const app = express();
 app.use(logger("dev"));
