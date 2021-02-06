@@ -4,7 +4,15 @@ module.exports = function (app) {
   //GET workouts
   app.get("/api/workouts", (req, res) => {
     workouts
-      .find({})
+      .aggregate([
+        {
+          $addFields: {
+            totalDuration: {
+              $sum: "$exercises.duration",
+            },
+          },
+        },
+      ])
       .then((seeWorkout) => {
         res.json(seeWorkout);
       })
@@ -55,6 +63,16 @@ module.exports = function (app) {
     workouts
       .aggregate([
         //sort most recent to least recent
+        {
+          $addFields: {
+            totalDuration: {
+              $sum: "$exercises.duration",
+            },
+            totalWeight: {
+              $sum: "$exercises.weight",
+            },
+          },
+        },
         {
           $sort: { _id: -1 },
         },
