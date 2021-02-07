@@ -23,15 +23,8 @@ module.exports = function (app) {
 
   //POST a new workout
   app.post("/api/workouts", (req, res) => {
-    const addNew = {
-      day: new Date(),
-      exercises: [req.body],
-      // totalDuration: {
-      //   $sum: "$exercises.duration",
-      // },
-    };
     workouts
-      .create(addNew)
+      .create(req.body)
       .then((resp) => {
         res.json(resp);
       })
