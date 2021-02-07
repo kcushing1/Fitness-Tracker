@@ -18,9 +18,7 @@ A n easy app to track workouts. Create exercises, log each day's unique workout,
 
 ## Demonstration
 
-![Fitness Tracker Demo](./assets/Employee-Tracker-Demo.gif)
-
-https://drive.google.com/file/d/18mUVykBrqwsbE1nhHJlFg7bMaHhxNhJS/view
+![Fitness Tracker Demo](./public/assets/fitness-tracker-demo.gif)
 
 ## Installation
 
