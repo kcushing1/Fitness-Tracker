@@ -23,14 +23,18 @@ module.exports = function (app) {
 
   //POST a new workout
   app.post("/api/workouts", (req, res) => {
-    console.log("req.body of post new" + req.body);
     const addNew = {
       day: new Date(),
       exercises: [req.body],
+      // totalDuration: {
+      //   $sum: "$exercises.duration",
+      // },
     };
     workouts
       .create(addNew)
-      .then((expl) => console.log("post new expl: " + expl))
+      .then((resp) => {
+        res.json(resp);
+      })
       .catch((err) => {
         res.json(err);
       });
@@ -38,7 +42,6 @@ module.exports = function (app) {
 
   //PUT exercise by id
   app.put("/api/workouts/:id", (req, res) => {
-    console.log("id is: " + req.params.id);
     workouts
       .findOneAndUpdate(
         { _id: req.params.id },
@@ -58,11 +61,9 @@ module.exports = function (app) {
 
   //range
   app.get("/api/workouts/range", (req, res) => {
-    console.log("inside range GET");
-
     workouts
       .aggregate([
-        //sort most recent to least recent
+        //add total duration and total weight
         {
           $addFields: {
             totalDuration: {
@@ -73,6 +74,7 @@ module.exports = function (app) {
             },
           },
         },
+        //sort most recent to least recent
         {
           $sort: { _id: -1 },
         },
