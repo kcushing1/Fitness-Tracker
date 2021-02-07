@@ -26,7 +26,7 @@ This app uses node and mongoDB. Using the command line, type "npm install" or "n
 
 ## Usage
 
-Use the deployed app at:
+Use the deployed app at: https://fitness-tracker-kcushing1.herokuapp.com/
 
 Or download and install to your computer.
 
